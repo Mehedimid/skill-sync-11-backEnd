@@ -41,13 +41,39 @@ async function run() {
     // Send a ping to confirm a successful connection
 
     const servicesCollection = client.db("services11DB").collection("services");
-
+    const cartCollection = client.db("services11DB").collection("cart");
 
     // ---- services collcetion crud operation-----
     app.get("/services", async (req, res) => {
         const result = await servicesCollection.find().toArray()
         res.send(result);
       });
+    
+  app.get("/services/:id",  async (req, res)=> {
+    const id = req.params.id
+    // console.log(id)
+    const query = {_id: new ObjectId(id)}
+    const result = await servicesCollection.findOne(query)
+    res.send(result)
+  })
+  app.post("/services", async (req, res) => {
+    const newProduct = req.body;
+    console.log(newProduct)
+    const result = await servicesCollection.insertOne(newProduct);
+    res.send(result);
+  });
+
+   // ---- cart collcetion crud operation-----
+   app.post('/cart', async(req, res)=>{
+    const card = req.body;
+    console.log(card)
+    const result = await cartCollection.insertOne(card);
+    res.send(result)
+  })
+
+
+
+
 
 
     await client.db("admin").command({ ping: 1 });
