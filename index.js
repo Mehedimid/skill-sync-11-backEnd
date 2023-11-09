@@ -5,7 +5,7 @@ const port = process.env.PORT || 5000;
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 // const jwt = require('jsonwebtoken')
 // const cookieParser = require('cookie-parser')
-// require("dotenv").config();
+require("dotenv").config();
 
 
 // =======middlewares======
@@ -19,11 +19,11 @@ app.use(cors({
 }))
 
 
-// ass11
-// Mha1381mHa
 
 
-const uri = "mongodb+srv://ass11:Mha1381mHa@cluster0.virnuu4.mongodb.net/?retryWrites=true&w=majority";
+
+
+const uri = `mongodb+srv://${process.env.db_user}:${process.env.db_pass}@cluster0.virnuu4.mongodb.net/?retryWrites=true&w=majority`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -105,6 +105,21 @@ async function run() {
     res.send(result)
   })
 
+  app.get("/cart/",async (req, res) => {
+    // const query = {userEmail : req.params.email}
+    let query={}
+    if(req.query?.email){
+      query = {userEmail : req.query.email}
+    }
+    // if(req.user?.email !== req.params.email){
+    //   return res.status(403).send({message:'forbidden access'})
+    // }
+    
+      const cursor = cartCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+  
+  });
 
 
 
