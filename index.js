@@ -63,6 +63,37 @@ async function run() {
     res.send(result);
   });
 
+    app.delete('/services/:id', async(req, res)=> {
+    const id = req.params.id
+    console.log(id)
+    const query = {_id : new ObjectId(id)}
+    const result = await servicesCollection.deleteOne(query)
+    res.send(result)
+  })
+
+
+  app.put("/products/:id" , async(req, res)=>{
+    const id = req.params.id
+    const newProduct = req.body
+    const filter = {_id : new ObjectId(id)}
+    const options = { upsert: true };
+    const updateProduct = {
+      $set: {
+        name : newProduct.name,
+        brand : newProduct.brand,
+        price : newProduct.price,
+        rating : newProduct.rating,
+        description : newProduct.description,
+        type : newProduct.type,
+        photo : newProduct.photo,
+      },
+    };
+    const result = await productCollection.updateOne(filter, updateProduct, options);
+    res.send(result)
+  })
+
+
+
    // ---- cart collcetion crud operation-----
    app.post('/cart', async(req, res)=>{
     const card = req.body;
