@@ -72,23 +72,26 @@ async function run() {
   })
 
 
-  app.put("/products/:id" , async(req, res)=>{
+  app.put("/services/:id" , async(req, res)=>{
     const id = req.params.id
     const newProduct = req.body
+
     const filter = {_id : new ObjectId(id)}
     const options = { upsert: true };
     const updateProduct = {
       $set: {
-        name : newProduct.name,
-        brand : newProduct.brand,
-        price : newProduct.price,
-        rating : newProduct.rating,
+        serviceName : newProduct.serviceName,
         description : newProduct.description,
-        type : newProduct.type,
-        photo : newProduct.photo,
+        serviceProvider : newProduct.serviceProvider,
+        providerEmail : newProduct.providerEmail,
+        price : newProduct.price,
+        image : newProduct.image,
+        location : newProduct.location,
+        providerImg : newProduct.providerImg,
       },
     };
-    const result = await productCollection.updateOne(filter, updateProduct, options);
+   console.log(updateProduct)
+    const result = await servicesCollection.updateOne(filter, updateProduct, options);
     res.send(result)
   })
 
