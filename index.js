@@ -105,7 +105,7 @@ async function run() {
     res.send(result)
   })
 
-  app.get("/cart/",async (req, res) => {
+  app.get("/cart",async (req, res) => {
     // const query = {userEmail : req.params.email}
     let query={}
     if(req.query?.email){
@@ -114,13 +114,21 @@ async function run() {
     // if(req.user?.email !== req.params.email){
     //   return res.status(403).send({message:'forbidden access'})
     // }
-    
       const cursor = cartCollection.find(query);
       const result = await cursor.toArray();
-      res.send(result);
-  
+      res.send(result)
   });
 
+  app.get("/cart/:providerEmail",async (req, res) => {
+    const query = {providerEmail : req.params.providerEmail}
+  
+    // if(req.user?.email !== req.params.email){
+    //   return res.status(403).send({message:'forbidden access'})
+    // }
+      const cursor = cartCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result)
+  });
 
 
 
