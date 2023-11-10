@@ -11,12 +11,15 @@ require("dotenv").config();
 // =======middlewares======
 // app.use(cookieParser())
 app.use(express.json());
-app.use(cors({
-  origin:[
-    'http://localhost:5173',
-],
-  credentials: true
-}))
+app.use(cors())
+
+// app.use(cors({
+  // origin:[
+    // 'http://localhost:5173',
+    // https://a11-project-8d1ae.web.app/   
+// ],
+  // credentials: true
+// }))
 
 
 
