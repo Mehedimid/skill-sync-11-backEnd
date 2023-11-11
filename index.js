@@ -48,11 +48,19 @@ async function run() {
 
     // ---- services collcetion crud operation-----
     app.get("/services", async (req, res) => {
-        let query = {} ;
-        query = { providerEmail: req.query.email }
+      let query = {}
+      if(req.query.email) {
+        query = {providerEmail : req?.query?.email}
+      }
         const result = await servicesCollection.find(query).toArray()
         res.send(result);
       });
+  
+      // app.get("/services/:email", async (req, res) => {
+      //   const query = {providerEmail : req.params.email}
+      //   const result = await servicesCollection.find(query).toArray()
+      //   res.send(result);
+      // });
     
   app.get("/services/:id",  async (req, res)=> {
     const id = req.params.id
