@@ -48,7 +48,9 @@ async function run() {
 
     // ---- services collcetion crud operation-----
     app.get("/services", async (req, res) => {
-        const result = await servicesCollection.find().toArray()
+        let query = {} ;
+        query = { providerEmail: req.query.email }
+        const result = await servicesCollection.find(query).toArray()
         res.send(result);
       });
     
@@ -59,6 +61,7 @@ async function run() {
     const result = await servicesCollection.findOne(query)
     res.send(result)
   })
+
   app.post("/services", async (req, res) => {
     const newProduct = req.body;
     console.log(newProduct)
@@ -150,7 +153,7 @@ run().catch(console.dir);
 
 // -----------------------------------------------------------------------------------
 app.get("/", (req, res) => {
-    res.send("hello server asflkjf");
+    res.send("hello server assign 11");
   });
   
   app.listen(port, () => {
