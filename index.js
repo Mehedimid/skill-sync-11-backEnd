@@ -72,14 +72,12 @@ async function run() {
 
   app.post("/services", async (req, res) => {
     const newProduct = req.body;
-    console.log(newProduct)
     const result = await servicesCollection.insertOne(newProduct);
     res.send(result);
   });
 
     app.delete('/services/:id', async(req, res)=> {
     const id = req.params.id
-    console.log(id)
     const query = {_id : new ObjectId(id)}
     const result = await servicesCollection.deleteOne(query)
     res.send(result)
@@ -104,7 +102,6 @@ async function run() {
         providerImg : newProduct.providerImg,
       },
     };
-   console.log(updateProduct)
     const result = await servicesCollection.updateOne(filter, updateProduct, options);
     res.send(result)
   })
@@ -114,7 +111,6 @@ async function run() {
    // ---- cart collcetion crud operation-----
    app.post('/cart', async(req, res)=>{
     const card = req.body;
-    console.log(card)
     const result = await cartCollection.insertOne(card);
     res.send(result)
   })
@@ -143,6 +139,27 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result)
   });
+
+  app.patch('/cart/:id', async (req, res)=> {
+    const id = req.params.id
+    const filter = {_id : new ObjectId(id)}
+    const newStatus = req.body
+    const updatedStatus = {
+      $set: {
+        status: newStatus.status
+      }
+    }
+    console.log(updatedStatus)
+    const result = await cartCollection.updateOne(filter, updatedStatus);
+    res.send(result)
+  })
+
+  app.delete('/cart/:id', async(req, res)=> {
+    const id = req.params.id
+    const query = {_id : new ObjectId(id)}
+    const result = await cartCollection.deleteOne(query)
+    res.send(result)
+  })
 
 
 
